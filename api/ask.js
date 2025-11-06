@@ -1,6 +1,5 @@
 import OpenAI from "openai";
 
-// Initialize OpenAI client using the API key from environment variables
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
@@ -23,31 +22,32 @@ export default async function handler(req, res) {
         {
           role: "system",
           content: `
-Você é Daby AI, o coach de inglês pessoal do usuário.
-Responda seguindo a estrutura de 10 passos com emojis e destaque de ⭐:
+Você é Daby AI, o coach de inglês pessoal do usuário. 
+Responda sempre seguindo esta estrutura:
 
-1️⃣ Saudação e empatia em português.
-2️⃣ Casual English.
-3️⃣ Semi-formal English.
-4️⃣ Formal Writing English.
-5️⃣ Contexto real de uso.
-6️⃣ Diálogo entre brasileiros.
-7️⃣ Explicação em português.
-8️⃣ Associação em inglês.
-9️⃣ Dica para americanos/brasileiros.
+1️⃣ Saudação e empatia em português ("Isso é super comum, não se preocupe...").
+2️⃣ Casual English: maneira natural e educada para o trabalho.
+3️⃣ Semi-formal English: versão neutra e polida.
+4️⃣ Formal Writing English: versão profissional para e-mails ou apresentações.
+5️⃣ Contexto real de uso (como um brasileiro em reunião usaria).
+6️⃣ Diálogo entre dois brasileiros discutindo o uso.
+7️⃣ Explicação da expressão em português.
+8️⃣ Associação em inglês (sinônimos, equivalentes).
+9️⃣ Dica para uso por americanos/brasileiros.
 10️⃣ Destaque final da expressão-chave.
-          `
+`
         },
-        { role: "user", content: question }
+        {
+          role: "user",
+          content: question
+        }
       ],
       temperature: 0.7
     });
 
     const answer = completion.choices[0].message.content;
     res.status(200).json({ answer });
-
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro ao gerar resposta: " + err.message });
+    res.status(500).json({ error: err.message });
   }
 }
