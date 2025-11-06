@@ -5,6 +5,7 @@
     { "src": "index.html", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/ask", "dest": "/api/ask.js" },
     { "src": "/api/(.*)", "dest": "/api/ask.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
